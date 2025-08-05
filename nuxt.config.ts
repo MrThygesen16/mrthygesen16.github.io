@@ -58,4 +58,17 @@ export default {
     }
   },
 
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          langs: [
+            'java',
+            'python',
+            'terraform'
+          ]
+        }
+      }
+    }
+  }
 }
