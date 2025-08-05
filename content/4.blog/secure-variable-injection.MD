@@ -37,7 +37,7 @@ Essentially, doing the approach described above (using a managed identity to cre
 Let's take the following Terraform snippet(s) as an example:
 
 1. First we will create a resource group
-```terraform
+```hcl
 # main.tf
 resource "azurerm_resource_group" "this" {
   name     = "rg-acg-example-01"
@@ -47,7 +47,7 @@ resource "azurerm_resource_group" "this" {
 ```
 
 2. Create a container group
-```terraform
+```hcl
 # main.tf (cont.) - Insecure Windows Container Group
 resource "azurerm_container_group" "unsecure" {
   name                = "acg-windows-insecure-01"
@@ -109,7 +109,7 @@ Unfortunately, this means that anyone who has read-access to state can view thes
 We can solve this issue by using AzAPI.
 
 1. Create another Container group; this time we don't add the secrets in, and instead add a lifecycle ignore block on the environment variables object (otherwise Terraform will complain)
-```terraform
+```hcl
 # main.tf (cont.) Secure Windows Container Group
 resource "azurerm_container_group" "secure" {
   name                = "acg-windows-secure-01"
@@ -143,7 +143,7 @@ resource "azurerm_container_group" "secure" {
 ```
 
 2. Next we use AzAPI to Stop the container by sending a POST request to the Container Group
-```terraform
+```hcl
 # main.tf (cont.) stop container group
 resource "azapi_resource_action" "stop_container_group" {
   type        = "Microsoft.ContainerInstance/containerGroups@2023-05-01"
@@ -155,7 +155,7 @@ resource "azapi_resource_action" "stop_container_group" {
 
 
 3. Also using AzAPI, we use the resource `update_resource` to inject the variables. 
-```terraform
+```hcl
 # main.tf (cont.) inject secrets
 resource "azapi_update_resource" "inject_secrets" {
   type        = "Microsoft.ContainerInstance/containerGroups@2023-05-01"
@@ -193,7 +193,7 @@ The reason we are able to update these values and not have them written to state
 
 
 4. Lastly, we start the container group again.
-```terraform
+```hcl
 # main.tf (cont.) start container group
 resource "azapi_resource_action" "start_container_group" {
   type        = "Microsoft.ContainerInstance/containerGroups@2022-05-01"
