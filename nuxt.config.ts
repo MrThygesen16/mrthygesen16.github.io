@@ -58,23 +58,23 @@ export default {
     }
   },
 
-  // content: {
-  //   build: {
-  //     markdown: {
-  //       highlight: {
-  //         langs: [
-  //           'java',
-  //           'python',
-  //           'terraform'
-  //         ]
-  //       }
-  //     }
-  //   }
-  // }
   content: {
-    highlight: {
-      theme: 'nord',
-      preload: ['terraform']
+    build: {
+      markdown: {
+        highlight: {
+          langs: [
+            'java',
+            'python',
+            'terraform'
+          ]
+        }
+      }
     }
   }
+  // content: {
+  //   highlight: {
+  //     theme: 'nord',
+  //     preload: ['terraform']
+  //   }
+  // }
 }
